@@ -3,6 +3,16 @@ $(function () {
   let toShow = "#step-" + (hash ? hash.replace("#", "") : "form");
   $(toShow).removeClass("hidden");
 
+  if (hash) {
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        left: 0,
+        behavior: "smooth",
+      });
+    }, 100);
+  }
+
   let demoUrl = localStorage.getItem("idcfDemoUrl");
   if (demoUrl) {
     $("form")[0].action = demoUrl;
@@ -10,12 +20,12 @@ $(function () {
 
   let panInput = $('#card-number');
   let panVal;
-  
+
   function readCard() {
     panVal = panInput.val();
     panVal = panVal.replaceAll(/[ -]/g, "");
   }
-  
+
   function validateCardNum() {
     readCard();
     if (! /^\d{16}$/.exec(panVal)) {
@@ -26,7 +36,7 @@ $(function () {
       return true;
     }
   }
-  
+
   panInput.on("focusout", () => {
     readCard();
     if (panVal) {
@@ -38,7 +48,7 @@ $(function () {
       }
     }
   });
-  
+
   $("#pay").on('click', async function(){
     if (validateCardNum()) {
       const transactionData = {
