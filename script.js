@@ -30,9 +30,6 @@ $(function () {
   panInput.on("focusout", () => {
     readCard();
     if (panVal) {
-      if (!$('#card-holder').val()) {
-        $('#card-holder').val("John Doe");
-      }
       if (!$('#card-exp').val()) {
         $('#card-exp').val("06/" + ("" + (new Date().getFullYear() + 1)).substring(2));
       }
