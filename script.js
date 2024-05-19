@@ -4,10 +4,9 @@ $(function () {
   $(toShow).removeClass("hidden");
 
   let demoUrl = localStorage.getItem("idcfDemoUrl");
-  if (!demoUrl) {
-    demoUrl = "https://idcfido.demo.gemalto.com/3ds";
+  if (demoUrl) {
+    $("form")[0].action = demoUrl;
   }
-  $("form")[0].action = demoUrl;
 
   let panInput = $('#card-number');
   let panVal;
