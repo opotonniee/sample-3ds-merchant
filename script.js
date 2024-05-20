@@ -1,3 +1,5 @@
+const LOCAL_STORAGE = "idcf3dsRemember";
+
 $(function () {
   const hash = window.location.hash;
   let toShow = "#step-" + (hash ? hash.replace("#", "") : "form");
@@ -15,7 +17,8 @@ $(function () {
 
   let demoUrl = localStorage.getItem("idcfDemoUrl");
   if (demoUrl) {
-    $("form")[0].action = demoUrl;
+    $("form")[0].action = demoUrl + "/3ds";
+    $("#idcf-demo-link a").attr("href", demoUrl);
   }
 
   let panInput = $('#card-number');
@@ -49,8 +52,17 @@ $(function () {
     }
   });
 
-  $("#pay").on('click', async function(){
+  $("#pay").on('click', async function() {
     if (validateCardNum()) {
+      if ($("#card-remember")[0].checked) {
+        const remember = {
+          pan: $('#card-number').val(),
+          holder: $('#card-holder').val().trim()
+        }
+        localStorage.setItem(LOCAL_STORAGE, JSON.stringify(remember));
+      } else {
+        localStorage.removeItem(LOCAL_STORAGE);
+      }
       const transactionData = {
         "acctNumber": panVal,
         "notificationURL": window.location.toString(),
@@ -66,5 +78,13 @@ $(function () {
       $("#form-submit").trigger("click");
     }
   });
+
+  let stored = localStorage.getItem(LOCAL_STORAGE);
+  if (stored) {
+    stored = JSON.parse(stored);
+    panInput.val(stored.pan);
+    $('#card-holder').val(stored.holder);
+    $("#card-remember")[0].checked = true;
+  }
 
 });
