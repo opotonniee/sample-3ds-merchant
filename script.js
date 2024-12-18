@@ -56,12 +56,11 @@ $(function () {
   $("#pay").on('click', async function () {
     if (validateCardNum()) {
       if ($("#card-remember")[0].checked) {
-        config.remember = {
-          pan: $('#card-number').val().trim(),
-          holder: $('#card-holder').val().trim()
-        };
+        config.pan = $('#card-number').val().trim();
+        config.holder = $('#card-holder').val().trim();
       } else {
-        delete config.remember;
+        delete config.pan;
+        delete config.holder;
       }
       localStorage.setItem(LOCAL_STORAGE, JSON.stringify(config));
       const transactionData = {
@@ -139,9 +138,9 @@ $(function () {
     }
   });
 
-  if (config?.remember?.pan) {
-    panInput.val(config.remember.pan);
-    $('#card-holder').val(config.remember?.holder);
+  if (config?.pan) {
+    panInput.val(config.pan);
+    $('#card-holder').val(config?.holder);
     $("#card-remember")[0].checked = true;
   }
 

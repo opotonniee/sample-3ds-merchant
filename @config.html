@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="./favicon.ico" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3-D Secure Demo Configuration</title>
+  <style>
+body {
+  background:#c9d5e7;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h2 {
+  font-size: medium;
+}
+#config, #buttons, h2 {
+  margin: 20px;
+}
+#config, input[type="text"] {
+  width: 300px
+}
+#buttons button {
+  margin-right: 20px;
+}
+
+  </style>
+</head>
+
+<body>
+  <h2>3-D Secure Demo Configuration</h2>
+  <table id="config"></table>
+  <div id="buttons">
+    <button id="save">Save</button>
+    <button id="reset">Reset</button>
+    <a href=".">Back</a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/cash-dom/dist/cash.min.js"></script>
+  <script src="https://opotonniee.github.io/js-config/dist/js-config.js"></script>
+</body>
+
+<script>
+  $(function () {
+
+    let cfg = new JsConfig({ autosave: true, version: 1 })
+      .add("demoUrl", JsConfig.textType(""), "https://idcfido.demo.gemalto.com", "URL of the IdCloud demo")
+      .add("useSPC", JsConfig.boolType(".*"), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
+      .add("pan", JsConfig.textType(""), "", "Saved through main page")
+      .add("holder", JsConfig.textType(""), "", "Saved through main page")
+      .onChange(cfg => localStorage.setItem("idcf3ds", JSON.stringify(cfg)))
+      .setConfig(localStorage.getItem("idcf3ds"));
+
+    let cfgTable = $("#config")[0];
+    cfg.showConfigTable(cfgTable);
+    $("#save").on("click", () => {
+      cfg.readConfigTable(cfgTable);
+    });
+    $("#reset").on("click", () => {
+      localStorage.removeItem("idcf3ds");
+      location.reload();
+    });
+  });
+</script>
+
+</html>
