@@ -44,7 +44,8 @@ h2 {
 
     let cfg = new JsConfig({ autosave: true, version: 1 })
       .add("demoUrl", JsConfig.textType(""), "https://idcfido.demo.gemalto.com", "URL of the IdCloud demo")
-      .add("useSPC", JsConfig.boolType(".*"), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
+      .add("useIframe", JsConfig.boolType(), false, "Show 3DS page in iframe")
+      .add("useSPC", JsConfig.boolType(), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
       .add("pan", JsConfig.textType(""), "", "Saved through main page")
       .add("holder", JsConfig.textType(""), "", "Saved through main page")
       .onChange(cfg => localStorage.setItem("idcf3ds", JSON.stringify(cfg)))
