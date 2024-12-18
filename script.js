@@ -3,11 +3,11 @@ const storage = localStorage.getItem(LOCAL_STORAGE);
 const config = storage ? JSON.parse(storage) : {};
 
 $(function () {
-  const hash = window.location.hash;
-  let toShow = "#step-" + (hash ? hash.replace("#", "") : "form");
+  const selector = window.location.search;
+  let toShow = "#step-" + (selector ? selector.replace("?", "") : "form");
   $(toShow).removeClass("hidden");
 
-  if (hash) {
+  if (selector) {
     setTimeout(() => {
       window.scrollTo({
         top: document.body.scrollHeight,
@@ -77,9 +77,9 @@ $(function () {
       if (!config.useSPC) {
         $("#form-transaction").val(JSON.stringify(transactionData));
         if (config.useIframe) {
-          $("form").attr("target", "3ds_iframe");
-          $("#step-form").hide();
-          $("#step-iframe").show();
+          $("form").attr("target", "3ds-iframe");
+          $("#step-form").addClass("hidden");
+          $("#step-iframe").removeClass("hidden");
         }
         $("#form-submit").trigger("click");
       } else {
