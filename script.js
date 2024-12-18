@@ -76,6 +76,11 @@ $(function () {
       };
       if (!config.useSPC) {
         $("#form-transaction").val(JSON.stringify(transactionData));
+        if (config.useIframe) {
+          $("form").attr("target", "3ds_iframe");
+          $("#step-form").hide();
+          $("#step-iframe").show();
+        }
         $("#form-submit").trigger("click");
       } else {
         try {
