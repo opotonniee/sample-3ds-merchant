@@ -1,6 +1,13 @@
 const LOCAL_STORAGE = "idcf3ds";
-const storage = localStorage.getItem(LOCAL_STORAGE);
-const config = storage ? JSON.parse(storage) : {};
+let jsCfg = new JsConfig({ autosave: true, version: 1 })
+  .add("demoUrl", JsConfig.textType(""), "https://idcfido.demo.gemalto.com", "URL of the IdCloud demo")
+  .add("useIframe", JsConfig.boolType(), false, "Show 3DS page in iframe")
+  .add("useSPC", JsConfig.boolType(), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
+  .add("pan", JsConfig.textType(""), "", "Saved through main page")
+  .add("holder", JsConfig.textType(""), "", "Saved through main page")
+  .onChange((newCfg) => { localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCfg) )})
+  .setConfig(localStorage.getItem(LOCAL_STORAGE));
+let config = jsCfg._;
 
 $(function () {
   const selector = window.location.search;
@@ -62,7 +69,7 @@ $(function () {
         delete config.pan;
         delete config.holder;
       }
-      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(config));
+      jsCfg.change();
       const transactionData = {
         acctNumber: panVal,
         notificationURL: window.location.toString(),

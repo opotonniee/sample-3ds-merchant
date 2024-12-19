@@ -42,22 +42,22 @@ h2 {
 <script>
   $(function () {
 
-    let cfg = new JsConfig({ autosave: true, version: 1 })
+    let jsCfg = new JsConfig({ autosave: true, version: 1 })
       .add("demoUrl", JsConfig.textType(""), "https://idcfido.demo.gemalto.com", "URL of the IdCloud demo")
       .add("useIframe", JsConfig.boolType(), false, "Show 3DS page in iframe")
       .add("useSPC", JsConfig.boolType(), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
       .add("pan", JsConfig.textType(""), "", "Saved through main page")
       .add("holder", JsConfig.textType(""), "", "Saved through main page")
-      .onChange(cfg => localStorage.setItem("idcf3ds", JSON.stringify(cfg)))
+      .onChange(newCfg => localStorage.setItem("idcf3ds", JSON.stringify(newCfg)))
       .setConfig(localStorage.getItem("idcf3ds"));
 
     let cfgTable = $("#config")[0];
-    cfg.showConfigTable(cfgTable);
+    jsCfg.showConfigTable(cfgTable);
     $("#save").on("click", () => {
-      cfg.readConfigTable(cfgTable);
+      jsCfg.readConfigTable(cfgTable);
     });
     $("#reset").on("click", () => {
-      localStorage.removeItem("idcf3ds");
+      jsCfg.resetToDefault();
       location.reload();
     });
   });
