@@ -250,6 +250,13 @@ iframe {
   height: 90%;
 }
 
+#step-success a {
+  position: absolute;
+  bottom: 10px;
+  text-decoration: none;
+  color: #eee;
+}
+
 *@media (max-width: 600px) {
   .window {
     width: 100%;

@@ -24,6 +24,10 @@ h2 {
   margin-right: 20px;
 }
 
+#error {
+  color: red;
+  margin: 20px;
+}
   </style>
 </head>
 
@@ -35,28 +39,33 @@ h2 {
     <button id="reset">Reset</button>
     <a href=".">Back</a>
   </div>
+  <div id="error"></div>
   <script src="https://cdn.jsdelivr.net/npm/cash-dom/dist/cash.min.js"></script>
   <script src="https://opotonniee.github.io/js-config/dist/js-config.js"></script>
 </body>
 
 <script>
+  let jsCfg;
   $(function () {
 
-    let jsCfg = new JsConfig({ autosave: true, version: 1 })
+    jsCfg = new JsConfig({ version: 1 })
       .add("demoUrl", JsConfig.textType(""), "https://idcfido.demo.gemalto.com", "URL of the IdCloud demo")
       .add("useIframe", JsConfig.boolType(), false, "Show 3DS page in iframe")
       .add("useSPC", JsConfig.boolType(), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
-      .add("pan", JsConfig.textType(""), "", "Saved through main page")
+      .add("pan", JsConfig.textType("^[0-9- ]*$"), "", "Saved through main page")
       .add("holder", JsConfig.textType(""), "", "Saved through main page")
+      .setConfig(localStorage.getItem("idcf3ds"))
       .onChange(newCfg => localStorage.setItem("idcf3ds", JSON.stringify(newCfg)))
-      .setConfig(localStorage.getItem("idcf3ds"));
+      .onError(msg => $("#error")[0].innerHTML += msg + "<br>");
 
     let cfgTable = $("#config")[0];
     jsCfg.showConfigTable(cfgTable);
     $("#save").on("click", () => {
+      $("#error").empty()
       jsCfg.readConfigTable(cfgTable);
     });
     $("#reset").on("click", () => {
+      $("#error").empty()
       jsCfg.resetToDefault();
       location.reload();
     });
