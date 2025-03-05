@@ -50,7 +50,7 @@ h2 {
 
     jsCfg = new JsConfig({ version: 1 })
       .add("demoUrl", JsConfig.textType(""), "https://idcfido.demo.gemalto.com", "URL of the IdCloud demo")
-      .add("useIframe", JsConfig.boolType(), false, "Show 3DS page in iframe")
+      .add("useIframe", JsConfig.boolType(), false, "Show 3DS page in iframe (NOTE: not yet supported as IdCloud forbids WebAuthn crossOrigin)")
       .add("useSPC", JsConfig.boolType(), false, "EXPERIMENTAL: Use Secure Payment Confirmation (SPC)")
       .add("pan", JsConfig.textType("^[0-9- ]*$"), "", "Saved through main page")
       .add("holder", JsConfig.textType(""), "", "Saved through main page")
